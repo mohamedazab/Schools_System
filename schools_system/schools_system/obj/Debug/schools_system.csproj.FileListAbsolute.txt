@@ -1,0 +1,17 @@
+E:\Faculty of engineering\Semesters\5th Semester\Database I\Project\M4\schools_system\schools_system\bin\schools_system.dll
+E:\Faculty of engineering\Semesters\5th Semester\Database I\Project\M4\schools_system\schools_system\bin\schools_system.pdb
+E:\Faculty of engineering\Semesters\5th Semester\Database I\Project\M4\schools_system\schools_system\obj\Debug\schools_system.dll
+E:\Faculty of engineering\Semesters\5th Semester\Database I\Project\M4\schools_system\schools_system\obj\Debug\schools_system.pdb
+E:\Faculty of engineering\Semesters\5th Semester\Database I\Project\M4\schools_system\schools_system\obj\Debug\schools_system.csprojResolveAssemblyReference.cache
+C:\Users\moham\Desktop\databases all\schools_system\schools_system\bin\schools_system.dll.config
+C:\Users\moham\Desktop\databases all\schools_system\schools_system\bin\schools_system.dll
+C:\Users\moham\Desktop\databases all\schools_system\schools_system\bin\schools_system.pdb
+C:\Users\moham\Desktop\databases all\schools_system\schools_system\obj\Debug\schools_system.csprojResolveAssemblyReference.cache
+C:\Users\moham\Desktop\databases all\schools_system\schools_system\obj\Debug\schools_system.dll
+C:\Users\moham\Desktop\databases all\schools_system\schools_system\obj\Debug\schools_system.pdb
+E:\Faculty of engineering\Semesters\5th Semester\Database I\Project\M4\5\schools_system\schools_system\bin\schools_system.dll.config
+E:\Faculty of engineering\Semesters\5th Semester\Database I\Project\M4\5\schools_system\schools_system\bin\schools_system.dll
+E:\Faculty of engineering\Semesters\5th Semester\Database I\Project\M4\5\schools_system\schools_system\bin\schools_system.pdb
+E:\Faculty of engineering\Semesters\5th Semester\Database I\Project\M4\5\schools_system\schools_system\obj\Debug\schools_system.dll
+E:\Faculty of engineering\Semesters\5th Semester\Database I\Project\M4\5\schools_system\schools_system\obj\Debug\schools_system.pdb
+E:\Faculty of engineering\Semesters\5th Semester\Database I\Project\M4\5\schools_system\schools_system\obj\Debug\schools_system.csprojResolveAssemblyReference.cache

@@ -1,0 +1,400 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="check" Class="schoolsDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=.;Initial Catalog=check;Persist Security Info=True;User ID=sa;Pooling=False" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="checkConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Activities" Member="Activities">
+    <Type Name="Activity">
+      <Column Name="primary_key" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="type" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="location" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="equipment" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="description" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Activity_Administrators_Assign_Activity" Member="Administrators_Assign_Activity" ThisKey="primary_key" OtherKey="activity" Type="Administrators_Assign_Activity" Cardinality="One" />
+      <Association Name="Activity_Students_ParticipateIn_Activity" Member="Students_ParticipateIn_Activities" ThisKey="primary_key" OtherKey="activity" Type="Students_ParticipateIn_Activity" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Administrators" Member="Administrators">
+    <Type Name="Administrator">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="username" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Administrator_Administrators_Assign_Activity" Member="Administrators_Assign_Activities" ThisKey="username" OtherKey="admin" Type="Administrators_Assign_Activity" />
+      <Association Name="Administrator_Announcement" Member="Announcements" ThisKey="username" OtherKey="admin" Type="Announcement" />
+      <Association Name="Employee_Administrator" Member="Employee" ThisKey="username" OtherKey="username" Type="Employee" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="Employee_Administrator1" Member="Employee1" ThisKey="id" OtherKey="id" Type="Employee" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Administrators_Assign_Activities" Member="Administrators_Assign_Activities">
+    <Type Name="Administrators_Assign_Activity">
+      <Column Name="activity" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="teacher" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="admin" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Activity_Administrators_Assign_Activity" Member="Activity1" ThisKey="activity" OtherKey="primary_key" Type="Activity" IsForeignKey="true" />
+      <Association Name="Administrator_Administrators_Assign_Activity" Member="Administrator" ThisKey="admin" OtherKey="username" Type="Administrator" IsForeignKey="true" />
+      <Association Name="Teacher_Administrators_Assign_Activity" Member="Teacher1" ThisKey="teacher" OtherKey="username" Type="Teacher" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Announcements" Member="Announcements">
+    <Type Name="Announcement">
+      <Column Name="primary_key" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="type" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="title" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="description" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="admin" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Administrator_Announcement" Member="Administrator" ThisKey="admin" OtherKey="username" Type="Administrator" IsForeignKey="true" DeleteRule="SET NULL" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Assignments" Member="Assignments">
+    <Type Name="Assignment">
+      <Column Name="posting_date" Type="System.DateTime" DbType="DateTime NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="due_date" Type="System.DateTime" DbType="DateTime NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="content" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="maximum_marks" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="code" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="teacher" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Assignment_Students_Submits_Assignments_In_Course" Member="Students_Submits_Assignments_In_Courses" ThisKey="posting_date,due_date,code" OtherKey="post_date,due_date,course" Type="Students_Submits_Assignments_In_Course" />
+      <Association Name="Course_Assignment" Member="Course" ThisKey="code" OtherKey="code" Type="Course" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Teacher_Assignment" Member="Teacher1" ThisKey="teacher" OtherKey="username" Type="Teacher" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Children" Member="Childrens">
+    <Type Name="Children">
+      <Column Name="ssn" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="gender" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="birth_date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="age" Type="System.Int32" DbType="Int" IsDbGenerated="true" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="parent" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Children_Parents_ApplyForChildIn_School" Member="Parents_ApplyForChildIn_Schools" ThisKey="ssn" OtherKey="child" Type="Parents_ApplyForChildIn_School" />
+      <Association Name="Children_Student" Member="Student" ThisKey="ssn" OtherKey="ssn" Type="Student" Cardinality="One" />
+      <Association Name="Parent_Children" Member="Parent1" ThisKey="parent" OtherKey="username" Type="Parent" IsForeignKey="true" DeleteRule="SET NULL" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Clubs" Member="Clubs">
+    <Type Name="Club">
+      <Column Name="club_id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="purpose" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="high_school" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Club_Students_Join_Club" Member="Students_Join_Clubs" ThisKey="club_id" OtherKey="club" Type="Students_Join_Club" />
+      <Association Name="High_Club" Member="High" ThisKey="high_school" OtherKey="school" Type="High" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Courses" Member="Courses">
+    <Type Name="Course">
+      <Column Name="code" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="course_description" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="course_level" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="course_grade" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Course_Assignment" Member="Assignments" ThisKey="code" OtherKey="code" Type="Assignment" />
+      <Association Name="Course_Courses_Prerequisite" Member="Courses_Prerequisites" ThisKey="code" OtherKey="pre_code" Type="Courses_Prerequisite" />
+      <Association Name="Course_Courses_Prerequisite1" Member="Courses_Prerequisites1" ThisKey="code" OtherKey="code" Type="Courses_Prerequisite" />
+      <Association Name="Course_Question" Member="Questions" ThisKey="code" OtherKey="course" Type="Question" />
+      <Association Name="Course_Teachers_assigned_to_Course" Member="Teachers_assigned_to_Courses" ThisKey="code" OtherKey="course" Type="Teachers_assigned_to_Course" />
+      <Association Name="Course_Teachers_teaches_Courses_to_Student" Member="Teachers_teaches_Courses_to_Students" ThisKey="code" OtherKey="course" Type="Teachers_teaches_Courses_to_Student" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Courses_Prerequisites" Member="Courses_Prerequisites">
+    <Type Name="Courses_Prerequisite">
+      <Column Name="code" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="pre_code" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Course_Courses_Prerequisite" Member="Course" ThisKey="pre_code" OtherKey="code" Type="Course" IsForeignKey="true" />
+      <Association Name="Course_Courses_Prerequisite1" Member="Course1" ThisKey="code" OtherKey="code" Type="Course" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Elementaries" Member="Elementaries">
+    <Type Name="Elementary">
+      <Column Name="school" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Elementary_Elementaries_Supplies_List" Member="Elementaries_Supplies_List" ThisKey="school" OtherKey="school" Type="Elementaries_Supplies_List" Cardinality="One" />
+      <Association Name="School_Elementary" Member="School1" ThisKey="school" OtherKey="primary_key" Type="School" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Elementaries_Supplies_Lists" Member="Elementaries_Supplies_Lists">
+    <Type Name="Elementaries_Supplies_List">
+      <Column Name="school" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="supplies" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Elementary_Elementaries_Supplies_List" Member="Elementary" ThisKey="school" OtherKey="school" Type="Elementary" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Employees" Member="Employees">
+    <Type Name="Employee">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="username" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="password" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="salary" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="gender" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="first_name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="middle_name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="last_name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="address" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="birth_date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="mail" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="school" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Employee_Administrator" Member="Administrators" ThisKey="username" OtherKey="username" Type="Administrator" />
+      <Association Name="Employee_Administrator1" Member="Administrator" ThisKey="id" OtherKey="id" Type="Administrator" Cardinality="One" />
+      <Association Name="Employee_Teacher" Member="Teacher" ThisKey="id" OtherKey="id" Type="Teacher" Cardinality="One" />
+      <Association Name="Employee_Teacher1" Member="Teachers" ThisKey="username" OtherKey="username" Type="Teacher" />
+      <Association Name="School_Employee" Member="School1" ThisKey="school" OtherKey="primary_key" Type="School" IsForeignKey="true" DeleteRule="SET NULL" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Highs" Member="Highs">
+    <Type Name="High">
+      <Column Name="school" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="High_Club" Member="Clubs" ThisKey="school" OtherKey="high_school" Type="Club" />
+      <Association Name="School_High" Member="School1" ThisKey="school" OtherKey="primary_key" Type="School" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Middles" Member="Middles">
+    <Type Name="Middle">
+      <Column Name="school" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="School_Middle" Member="School1" ThisKey="school" OtherKey="primary_key" Type="School" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Parents" Member="Parents">
+    <Type Name="Parent">
+      <Column Name="username" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="home_number" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="mail" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="password" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="first_name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="last_name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="address" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
+      <Association Name="Parent_Children" Member="Childrens" ThisKey="username" OtherKey="parent" Type="Children" />
+      <Association Name="Parent_Parents_ApplyForChildIn_School" Member="Parents_ApplyForChildIn_Schools" ThisKey="username" OtherKey="parent" Type="Parents_ApplyForChildIn_School" />
+      <Association Name="Parent_Parents_Mobile" Member="Parents_Mobiles" ThisKey="username" OtherKey="username" Type="Parents_Mobile" />
+      <Association Name="Parent_Parents_Review_School" Member="Parents_Review_Schools" ThisKey="username" OtherKey="parent" Type="Parents_Review_School" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Parents_ApplyForChildIn_Schools" Member="Parents_ApplyForChildIn_Schools">
+    <Type Name="Parents_ApplyForChildIn_School">
+      <Column Name="parent" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="school" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="child" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="accepted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="Children_Parents_ApplyForChildIn_School" Member="Children" ThisKey="child" OtherKey="ssn" Type="Children" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Parent_Parents_ApplyForChildIn_School" Member="Parent1" ThisKey="parent" OtherKey="username" Type="Parent" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="School_Parents_ApplyForChildIn_School" Member="School1" ThisKey="school" OtherKey="primary_key" Type="School" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Parents_Mobiles" Member="Parents_Mobiles">
+    <Type Name="Parents_Mobile">
+      <Column Name="number" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="username" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Parent_Parents_Mobile" Member="Parent" ThisKey="username" OtherKey="username" Type="Parent" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Parents_Review_Schools" Member="Parents_Review_Schools">
+    <Type Name="Parents_Review_School">
+      <Column Name="parent" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="school" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="review" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Parent_Parents_Review_School" Member="Parent1" ThisKey="parent" OtherKey="username" Type="Parent" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="School_Parents_Review_School" Member="School1" ThisKey="school" OtherKey="primary_key" Type="School" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Questions" Member="Questions">
+    <Type Name="Question">
+      <Column Name="primary_key" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="content" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="question_date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="answer" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="student" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="course" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="teacher" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Course_Question" Member="Course1" ThisKey="course" OtherKey="code" Type="Course" IsForeignKey="true" DeleteRule="SET NULL" />
+      <Association Name="Student_Question" Member="Student1" ThisKey="student" OtherKey="ssn" Type="Student" IsForeignKey="true" DeleteRule="SET NULL" />
+      <Association Name="Teacher_Question" Member="Teacher1" ThisKey="teacher" OtherKey="username" Type="Teacher" IsForeignKey="true" DeleteRule="SET NULL" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Schools" Member="Schools">
+    <Type Name="School">
+      <Column Name="primary_key" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="phone_number" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="general_info" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="mail" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="vision" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="mission" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="main_language" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="fees" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="address" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="type" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Association Name="School_Elementary" Member="Elementary" ThisKey="primary_key" OtherKey="school" Type="Elementary" Cardinality="One" />
+      <Association Name="School_Employee" Member="Employees" ThisKey="primary_key" OtherKey="school" Type="Employee" />
+      <Association Name="School_High" Member="High" ThisKey="primary_key" OtherKey="school" Type="High" Cardinality="One" />
+      <Association Name="School_Middle" Member="Middle" ThisKey="primary_key" OtherKey="school" Type="Middle" Cardinality="One" />
+      <Association Name="School_Parents_ApplyForChildIn_School" Member="Parents_ApplyForChildIn_Schools" ThisKey="primary_key" OtherKey="school" Type="Parents_ApplyForChildIn_School" />
+      <Association Name="School_Parents_Review_School" Member="Parents_Review_Schools" ThisKey="primary_key" OtherKey="school" Type="Parents_Review_School" />
+      <Association Name="School_Student" Member="Students" ThisKey="primary_key" OtherKey="school" Type="Student" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Students" Member="Students">
+    <Type Name="Student">
+      <Column Name="ssn" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="username" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="password" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="grade" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[level]" Member="level" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="school" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="Student_Question" Member="Questions" ThisKey="ssn" OtherKey="student" Type="Question" />
+      <Association Name="Student_Students_Join_Club" Member="Students_Join_Clubs" ThisKey="ssn" OtherKey="student" Type="Students_Join_Club" />
+      <Association Name="Student_Students_ParticipateIn_Activity" Member="Students_ParticipateIn_Activities" ThisKey="ssn" OtherKey="student" Type="Students_ParticipateIn_Activity" />
+      <Association Name="Student_Students_Submits_Assignments_In_Course" Member="Students_Submits_Assignments_In_Courses" ThisKey="ssn" OtherKey="student" Type="Students_Submits_Assignments_In_Course" />
+      <Association Name="Student_Teachers_teaches_Courses_to_Student" Member="Teachers_teaches_Courses_to_Students" ThisKey="ssn" OtherKey="student" Type="Teachers_teaches_Courses_to_Student" />
+      <Association Name="School_Student" Member="School1" ThisKey="school" OtherKey="primary_key" Type="School" IsForeignKey="true" DeleteRule="SET NULL" />
+      <Association Name="Children_Student" Member="Children" ThisKey="ssn" OtherKey="ssn" Type="Children" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Students_Join_Clubs" Member="Students_Join_Clubs">
+    <Type Name="Students_Join_Club">
+      <Column Name="student" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="club" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Student_Students_Join_Club" Member="Student1" ThisKey="student" OtherKey="ssn" Type="Student" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Club_Students_Join_Club" Member="Club1" ThisKey="club" OtherKey="club_id" Type="Club" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Students_ParticipateIn_Activity" Member="Students_ParticipateIn_Activities">
+    <Type Name="Students_ParticipateIn_Activity">
+      <Column Name="activity" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="student" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Activity_Students_ParticipateIn_Activity" Member="Activity1" ThisKey="activity" OtherKey="primary_key" Type="Activity" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Student_Students_ParticipateIn_Activity" Member="Student1" ThisKey="student" OtherKey="ssn" Type="Student" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Students_Submits_Assignments_In_Courses" Member="Students_Submits_Assignments_In_Courses">
+    <Type Name="Students_Submits_Assignments_In_Course">
+      <Column Name="student" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="post_date" Type="System.DateTime" DbType="DateTime NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="due_date" Type="System.DateTime" DbType="DateTime NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="course" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="solution" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="grade" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Association Name="Student_Students_Submits_Assignments_In_Course" Member="Student1" ThisKey="student" OtherKey="ssn" Type="Student" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Assignment_Students_Submits_Assignments_In_Course" Member="Assignment" ThisKey="post_date,due_date,course" OtherKey="posting_date,due_date,code" Type="Assignment" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Teachers" Member="Teachers">
+    <Type Name="Teacher">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="username" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="year_of_enrollment" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="years_of_experience" Type="System.Int32" DbType="Int" IsDbGenerated="true" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="supervisor" Type="System.Boolean" DbType="Bit" IsDbGenerated="true" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Teacher_Administrators_Assign_Activity" Member="Administrators_Assign_Activities" ThisKey="username" OtherKey="teacher" Type="Administrators_Assign_Activity" />
+      <Association Name="Teacher_Assignment" Member="Assignments" ThisKey="username" OtherKey="teacher" Type="Assignment" />
+      <Association Name="Teacher_Question" Member="Questions" ThisKey="username" OtherKey="teacher" Type="Question" />
+      <Association Name="Teacher_Teachers_assigned_to_Course" Member="Teachers_assigned_to_Courses" ThisKey="username" OtherKey="teacher" Type="Teachers_assigned_to_Course" />
+      <Association Name="Teacher_Teachers_teaches_Courses_to_Student" Member="Teachers_teaches_Courses_to_Students" ThisKey="username" OtherKey="teacher" Type="Teachers_teaches_Courses_to_Student" />
+      <Association Name="Employee_Teacher" Member="Employee" ThisKey="id" OtherKey="id" Type="Employee" IsForeignKey="true" />
+      <Association Name="Employee_Teacher1" Member="Employee1" ThisKey="username" OtherKey="username" Type="Employee" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Teachers_assigned_to_Courses" Member="Teachers_assigned_to_Courses">
+    <Type Name="Teachers_assigned_to_Course">
+      <Column Name="teacher" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="course" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Course_Teachers_assigned_to_Course" Member="Course1" ThisKey="course" OtherKey="code" Type="Course" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="Teacher_Teachers_assigned_to_Course" Member="Teacher1" ThisKey="teacher" OtherKey="username" Type="Teacher" IsForeignKey="true" DeleteRule="SET NULL" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Teachers_teaches_Courses_to_Students" Member="Teachers_teaches_Courses_to_Students">
+    <Type Name="Teachers_teaches_Courses_to_Student">
+      <Column Name="student" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="course" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="teacher" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Course_Teachers_teaches_Courses_to_Student" Member="Course1" ThisKey="course" OtherKey="code" Type="Course" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Student_Teachers_teaches_Courses_to_Student" Member="Student1" ThisKey="student" OtherKey="ssn" Type="Student" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Teacher_Teachers_teaches_Courses_to_Student" Member="Teacher1" ThisKey="teacher" OtherKey="username" Type="Teacher" IsForeignKey="true" DeleteRule="SET NULL" />
+    </Type>
+  </Table>
+  <Function Name="dbo.questions_answered_by_teacher" Method="questions_answered_by_teacher">
+    <Parameter Name="primary_key" Type="System.Int32" DbType="Int" />
+    <Parameter Name="answer" Type="System.String" DbType="Text" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.questions_viewed_by_teacher" Method="questions_viewed_by_teacher">
+    <Parameter Name="course" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="username" Type="System.String" DbType="VarChar(50)" />
+    <ElementType Name="questions_viewed_by_teacherResult">
+      <Column Name="content" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="name" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.student_has_report_from_teacher" Method="student_has_report_from_teacher">
+    <Parameter Name="username" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="ssn" Type="System.Int32" DbType="Int" />
+    <Parameter Name="comment" Type="System.String" DbType="NVarChar(500)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.students_seen_by_teacher" Method="students_seen_by_teacher">
+    <Parameter Name="username" Type="System.String" DbType="NVarChar(50)" />
+    <ElementType Name="students_seen_by_teacherResult">
+      <Column Name="name" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="grade" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.teacher_delete_assignment" Method="teacher_delete_assignment">
+    <Parameter Name="posting_date" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="due_date" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="code" Type="System.String" DbType="NVarChar(50)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.teacher_grade_assignment" Method="teacher_grade_assignment">
+    <Parameter Name="ssn" Type="System.Int32" DbType="Int" />
+    <Parameter Name="username" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="posting_date" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="due_date" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="code" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="grade" Type="System.Decimal" DbType="Decimal(18,0)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.teacher_post_assignment" Method="teacher_post_assignment">
+    <Parameter Name="username" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="code" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="posting_date" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="due_date" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="content" Type="System.String" DbType="Text" />
+    <Parameter Name="maximum_marks" Type="System.Decimal" DbType="Decimal(18,0)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.teacher_signup" Method="teacher_signup">
+    <Parameter Name="first_name" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="middle_name" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="last_name" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="birthdate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="address" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="email" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="gender" Type="System.String" DbType="NVarChar(10)" />
+    <Parameter Name="username" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="password" Type="System.String" DbType="NVarChar(50)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.teacher_view_courses" Method="teacher_view_courses">
+    <Parameter Name="username" Type="System.String" DbType="NVarChar(50)" />
+    <ElementType Name="teacher_view_coursesResult">
+      <Column Name="name" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="course_grade" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="course_level" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.teacher_view_soluions_for_Assignments" Method="teacher_view_soluions_for_Assignments">
+    <Parameter Name="username" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="course" Type="System.String" DbType="NVarChar(50)" />
+    <ElementType Name="teacher_view_soluions_for_AssignmentsResult">
+      <Column Name="solution" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.teacher_view_student_who_participates_maximum_clubs" Method="teacher_view_student_who_participates_maximum_clubs">
+    <Parameter Name="username" Type="System.String" DbType="NVarChar(50)" />
+    <ElementType Name="teacher_view_student_who_participates_maximum_clubsResult">
+      <Column Name="name" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.teacher_view_students_with_no_activity" Method="teacher_view_students_with_no_activity">
+    <Parameter Name="username" Type="System.String" DbType="NVarChar(50)" />
+    <ElementType Name="teacher_view_students_with_no_activityResult">
+      <Column Name="name" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+</Database>

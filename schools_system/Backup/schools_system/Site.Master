@@ -1,0 +1,54 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="schools_system.Site" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <style type="text/css">
+        .style1
+        {
+            width: 100%;
+        }
+        .style2
+        {
+            width: 1024px;
+            height: 210px;
+            margin-top: 2px;
+        }
+        .style3
+        {
+            width: 1027px;
+            height: 197px;
+        }
+        .style4
+        {
+            height: 215px;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <table class="style1">
+        <tr>
+            <td class="style4">
+                <img class="style2" src="/pics/images.png" /></td>
+        </tr>
+        <tr>
+            <td>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img class="style3" 
+                    src="/pics/Smart%20School%20and%20online%20School%20Management.gif" /></td>
+        </tr>
+    </table>
+    </form>
+</body>
+</html>
